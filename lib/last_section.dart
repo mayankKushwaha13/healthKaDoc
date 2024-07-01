@@ -20,45 +20,45 @@ class AdviceSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Padding(
-        padding: const EdgeInsets.all(12.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Additional Advice:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 8),
-        TextFormField(
-          controller: generalAdviceController,
-          decoration: InputDecoration(
-            hintText: 'General Advice',
-            border: OutlineInputBorder(),
-          ),
-          maxLines: 3,
-        ),
-        SizedBox(height: 8),
-        TextFormField(
-          controller: referralController,
-          decoration: InputDecoration(
-            hintText: 'Referral',
-            border: OutlineInputBorder(),
-          ),
-          maxLines: 3,
-        ),
-        SizedBox(height: 8),
-        TextFormField(
-          controller: surgeryAdviceController,
-          decoration: InputDecoration(
-            hintText: 'Surgery Advice',
-            border: OutlineInputBorder(),
-          ),
-          maxLines: 3,
-        ),
-        SizedBox(height: 16),
-      ],
-    )
-    )
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Additional Advice:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                TextFormField(
+                  controller: generalAdviceController,
+                  decoration: InputDecoration(
+                    hintText: 'General Advice',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                SizedBox(height: 8),
+                TextFormField(
+                  controller: referralController,
+                  decoration: InputDecoration(
+                    hintText: 'Referral',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                SizedBox(height: 8),
+                TextFormField(
+                  controller: surgeryAdviceController,
+                  decoration: InputDecoration(
+                    hintText: 'Surgery Advice',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                SizedBox(height: 16),
+              ],
+            )
+        )
     );
   }
 }

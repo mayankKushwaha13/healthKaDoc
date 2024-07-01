@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:prescription/last_section.dart';
 import 'vitals_entry.dart';
 import 'medicine_entry.dart';
 import 'test_entry.dart';
 import 'patient_details.dart';
-import 'last_section.dart';
 import 'diagnosis.dart';
+import 'prescription_screen.dart';
 
 class ClinicNotesPage extends StatefulWidget {
   @override
@@ -22,9 +23,9 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
   List<String> frequencies = ['Once a day', 'Twice a day', 'Thrice a day'];
   List<String> timings = ['Morning', 'Afternoon', 'Evening', 'Night'];
 
-  List<Map<String, String>> vitalsResults = []; // List to store vitals and results
-  List<Map<String, String>> medicines = []; // List to store medicines
-  List<Map<String, String>> tests = []; // List to store tests
+  List<Map<String, String>> vitalsResults = [];
+  List<Map<String, String>> medicines = [];
+  List<Map<String, String>> tests = [];
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
@@ -51,7 +52,7 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
       'frequency': frequencies[0],
       'timing': timings[0],
     });
-    // Initialize with one default entry for tests
+
     tests.add({'name': '', 'message': ''});
   }
 
@@ -159,8 +160,29 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
               SizedBox(height: 16),
               Center(
                 child: ElevatedButton(
-                  onPressed: (){},
-                  child: Text('Save Notes'),
+                  onPressed: () {
+                    // Navigate to PrescriptionDisplayScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PrescriptionDisplayScreen(
+                          nameController: nameController,
+                          ageController: ageController,
+                          phoneController: phoneController,
+                          complaintController: complaintController,
+                          gender: gender,
+                          vitalsResults: vitalsResults,
+                          medicines: medicines,
+                          tests: tests,
+                          diagnosisController: diagnosisController,
+                          generalAdviceController: generalAdviceController,
+                          referralController: referralController,
+                          surgeryAdviceController: surgeryAdviceController,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text('Print / View Prescription'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
                   ),
@@ -172,11 +194,11 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
       ),
     );
   }
+
   Widget buildSectionTitle(String title) {
     return Text(
       title,
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.teal),
     );
   }
-
 }
