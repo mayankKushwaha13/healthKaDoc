@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TestEntry extends StatelessWidget {
   final int index;
@@ -7,7 +8,7 @@ class TestEntry extends StatelessWidget {
   final Function(int, String, String) onUpdate;
   final VoidCallback onAdd;
 
-  TestEntry({
+  const TestEntry({super.key, 
     required this.index,
     required this.tests,
     required this.onRemove,
@@ -21,7 +22,7 @@ class TestEntry extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16.0),
     child: Card(
     elevation: 2,
-      color: Colors.lightBlue[50],
+      color: Colors.indigo[50],
     shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(8),
     ),
@@ -32,20 +33,23 @@ class TestEntry extends StatelessWidget {
           children: [
             Text(
               'Test ${index + 1}:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: GoogleFonts.aBeeZee(fontWeight: FontWeight.bold, color: Colors.red.shade700)
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(4),
+                color: Colors.pink.shade900
               ),
               child: TextFormField(
+                style: GoogleFonts.aBeeZee(color: Colors.white),
                 initialValue: tests[index]['name'] ?? '',
                 decoration: InputDecoration(
                   hintText: 'Enter test name',
+                  hintStyle: GoogleFonts.aBeeZee(color: Colors.white70),
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {
@@ -53,18 +57,21 @@ class TestEntry extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
+                color: Colors.pink.shade900,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: TextFormField(
+                style: GoogleFonts.aBeeZee(color: Colors.white),
                 initialValue: tests[index]['message'] ?? '',
                 decoration: InputDecoration(
                   hintText: 'Enter message',
+                  hintStyle: GoogleFonts.aBeeZee(color: Colors.white70),
                   border: InputBorder.none,
                 ),
                 maxLines: 3,
@@ -73,17 +80,13 @@ class TestEntry extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete, color: Colors.red,),
                   onPressed: () => onRemove(index),
-                ),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: onAdd,
                 ),
               ],
             ),

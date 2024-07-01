@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class VitalsEntry extends StatelessWidget {
   final int index;
@@ -8,7 +9,7 @@ class VitalsEntry extends StatelessWidget {
   final Function(int, String, String) onUpdate;
   final VoidCallback onAdd;
 
-  VitalsEntry({
+  const VitalsEntry({super.key, 
     required this.index,
     required this.vitalOptions,
     required this.vitalsResults,
@@ -22,7 +23,7 @@ class VitalsEntry extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
     child: Card(
-    color: Colors.lightBlue[50],
+    color: Colors.indigo[50],
     elevation: 3,
     shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(10),
@@ -34,21 +35,27 @@ class VitalsEntry extends StatelessWidget {
           children: <Widget>[
             Text(
               'Vital ${index + 1}:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: GoogleFonts.aBeeZee(color: Colors.red.shade700, fontWeight: FontWeight.bold)
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(4),
+                color: Colors.pink.shade900
               ),
               child: DropdownButtonFormField(
+                decoration: const InputDecoration(
+                  border: InputBorder.none
+                ),
                 value: vitalsResults[index]['vital'] ?? vitalOptions[0],
+                iconEnabledColor: Colors.white,
+                dropdownColor: Colors.pink.shade900,
                 items: vitalOptions.map((String vital) {
                   return DropdownMenuItem(
                     value: vital,
-                    child: Text(vital),
+                    child: Text(vital,style: GoogleFonts.lato(color: Colors.white)),
                   );
                 }).toList(),
                 onChanged: (newValue) {
@@ -56,17 +63,20 @@ class VitalsEntry extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(4),
+                color: Colors.pink.shade900
               ),
               child: TextFormField(
+                style: GoogleFonts.lato(color: Colors.white),
                 initialValue: vitalsResults[index]['result'] ?? '',
                 decoration: InputDecoration(
                   hintText: 'Enter result...',
+                  hintStyle: GoogleFonts.lato(color: Colors.white70),
                   border: InputBorder.none,
                 ),
                 maxLines: 3,
@@ -75,18 +85,15 @@ class VitalsEntry extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete, color: Colors.red,),
                   onPressed: () => onRemove(index),
                 ),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: onAdd,
-                ),
+                
               ],
             ),
           ],

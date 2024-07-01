@@ -12,7 +12,7 @@ class MedicineEntry extends StatelessWidget {
   final Function(int) onRemove;
   final Function(int, String, String) onUpdate;
 
-  MedicineEntry({
+  const MedicineEntry({super.key, 
     required this.index,
     required this.medicineTypes,
     required this.doses,
