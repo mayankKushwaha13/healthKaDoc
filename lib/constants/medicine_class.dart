@@ -1,7 +1,6 @@
 
-import 'package:flutter/material.dart';
 
-class MedicineEntry extends StatelessWidget {
+class MedicineEntry {
   final int index;
   final List<String> medicineTypes;
   final List<String> doses;
@@ -12,7 +11,7 @@ class MedicineEntry extends StatelessWidget {
   final Function(int) onRemove;
   final Function(int, String, String) onUpdate;
 
-  const MedicineEntry({super.key, 
+  const MedicineEntry({
     required this.index,
     required this.medicineTypes,
     required this.doses,
@@ -23,10 +22,4 @@ class MedicineEntry extends StatelessWidget {
     required this.onRemove,
     required this.onUpdate,
   });
-  
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
   }

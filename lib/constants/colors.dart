@@ -7,5 +7,4 @@ class MyColor{
 
   static Color blue = Colors.blue.shade400;
   static Color green = Colors.green.shade400;
-
 }

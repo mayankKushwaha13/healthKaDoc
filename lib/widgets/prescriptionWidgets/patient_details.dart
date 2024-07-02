@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 String api =
     "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=&sf=consumer_name";
-String api2 = "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=&df=synonyms";
+String api2 =
+    "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=&df=synonyms";
 
+List<String> complaintsList = [];
 List<dynamic> predictions = [];
 List<dynamic> rawList = [];
 List<dynamic> predictions2 = [];
@@ -20,7 +23,8 @@ class PatientDetails extends StatefulWidget {
   final String gender;
   final ValueChanged<String?> onGenderChanged;
 
-  const PatientDetails({super.key, 
+  const PatientDetails({
+    super.key,
     required this.nameController,
     required this.ageController,
     required this.phoneController,
@@ -34,13 +38,15 @@ class PatientDetails extends StatefulWidget {
 }
 
 class _PatientDetailsState extends State<PatientDetails> {
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 50.0);
   String query = "";
-  List<String> data = [];
   autoCompleteSearch(String value) async {
     predictions.clear();
     api =
         "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=$value&sf=consumer_name";
-    api2 = "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=$value&df=synonyms";
+    api2 =
+        "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=$value&df=synonyms";
     var result = await http.get(Uri.parse(api));
     var data1 = jsonDecode(result.body.toString());
     if (result.statusCode == 200 && mounted) {
@@ -48,7 +54,7 @@ class _PatientDetailsState extends State<PatientDetails> {
         predictions.clear();
         rawList.clear();
         rawList = data1[3];
-        for(int i = 0 ; i < rawList.length; i++){
+        for (int i = 0; i < rawList.length; i++) {
           predictions.add(rawList[i][0].toString());
         }
       });
@@ -60,13 +66,14 @@ class _PatientDetailsState extends State<PatientDetails> {
         predictions2.clear();
         rawList.clear();
         rawList = data2[3];
-        for (int i = 0; i < rawList.length; i++){
-          for (int j = 0; j < rawList[i].length; j++)
-          {
-            List<String> miniList = rawList[i][j].toString().split(",").toList();
-            for (int k = 0; k < miniList.length; k++)
-            {
-              miniList[k].isEmpty || miniList[k] == ""?null :predictions2.add(miniList[k]);
+        for (int i = 0; i < rawList.length; i++) {
+          for (int j = 0; j < rawList[i].length; j++) {
+            List<String> miniList =
+                rawList[i][j].toString().split(",").toList();
+            for (int k = 0; k < miniList.length; k++) {
+              miniList[k].isEmpty || miniList[k] == ""
+                  ? null
+                  : predictions2.add(miniList[k]);
             }
           }
         }
@@ -88,7 +95,6 @@ class _PatientDetailsState extends State<PatientDetails> {
               fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-
         TextFormField(
           controller: widget.nameController,
           style: GoogleFonts.lato(color: Colors.white),
@@ -101,7 +107,6 @@ class _PatientDetailsState extends State<PatientDetails> {
           ),
         ),
         const SizedBox(height: 8),
-
         Row(
           children: [
             Expanded(
@@ -125,7 +130,10 @@ class _PatientDetailsState extends State<PatientDetails> {
                 items: ['Male', 'Female', 'Other'].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value, style: GoogleFonts.lato(color: Colors.white),),
+                    child: Text(
+                      value,
+                      style: GoogleFonts.lato(color: Colors.white),
+                    ),
                   );
                 }).toList(),
                 onChanged: widget.onGenderChanged,
@@ -141,17 +149,15 @@ class _PatientDetailsState extends State<PatientDetails> {
           ],
         ),
         const SizedBox(height: 8),
-
         TextFormField(
           controller: widget.phoneController,
           style: GoogleFonts.lato(color: Colors.white),
           decoration: InputDecoration(
-            hintText: 'Phone Number',
-            hintStyle: GoogleFonts.lato(color: Colors.white70),
-            border: const OutlineInputBorder(),
-            fillColor: Colors.pink.shade900,
-            filled: true
-          ),
+              hintText: 'Phone Number',
+              hintStyle: GoogleFonts.lato(color: Colors.white70),
+              border: const OutlineInputBorder(),
+              fillColor: Colors.pink.shade900,
+              filled: true),
           keyboardType: TextInputType.phone,
         ),
         const SizedBox(height: 8),
@@ -167,10 +173,12 @@ class _PatientDetailsState extends State<PatientDetails> {
                     borderRadius: BorderRadius.circular(4),
                     border: Border.all(color: Colors.pink.shade900)),
                 child: RawScrollbar(
+                  controller: scrollController,
                   thumbColor: Colors.pink.shade400,
                   radius: const Radius.circular(1000),
                   thumbVisibility: true,
                   child: SingleChildScrollView(
+                    controller: scrollController,
                     child: Column(
                       children: [
                         Wrap(
@@ -183,9 +191,15 @@ class _PatientDetailsState extends State<PatientDetails> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Complaints',
-                  hintStyle: GoogleFonts.lato(color: Colors.black54)
-                ),
+                  suffixIcon: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            widget.complaintController.clear();
+                          });
+                        }
+                      , icon: Icon(CupertinoIcons.multiply, color: Colors.red.shade900,)),
+                    hintText: 'Complaints',
+                    hintStyle: GoogleFonts.lato(color: Colors.black54)),
                 controller: widget.complaintController,
                 onChanged: (value) {
                   if (value.isNotEmpty) {
@@ -200,11 +214,13 @@ class _PatientDetailsState extends State<PatientDetails> {
                 },
                 onSubmitted: (value) {
                   setState(() {
-                    data.add(value);
+                    complaintsList.add(value);
                   });
                 },
               ),
-              const SizedBox(height: 7,),
+              const SizedBox(
+                height: 7,
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,16 +229,32 @@ class _PatientDetailsState extends State<PatientDetails> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: predictions2.length < 3 ? predictions2.length : 3,
+                        itemCount:
+                            predictions2.isEmpty ? 1 : predictions2.length < 3 ? predictions2.length : 3,
                         itemBuilder: (context, index) {
                           return predictions2.isEmpty
-                              ? Container()
+                              ? widget.complaintController.text == "" ? Container():Card(
+                                  color: Colors.indigo.shade500,
+                                  child: ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        complaintsList.add(widget.complaintController.text);
+                                      });
+                                    },
+                                    title: Text(
+                                      widget.complaintController.text,
+                                      style: GoogleFonts.aBeeZee(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )
                               : Card(
                                   color: Colors.indigo.shade500,
                                   child: ListTile(
                                     onTap: () {
                                       setState(() {
-                                        data.add(predictions2[index]);
+                                        complaintsList.add(predictions2[index]);
                                       });
                                     },
                                     title: Text(
@@ -239,7 +271,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: predictions.length < 3 ? predictions.length : 3,
+                        itemCount:
+                            predictions.length < 3 ? predictions.length : 3,
                         itemBuilder: (context, index) {
                           return predictions.isEmpty
                               ? Container()
@@ -248,7 +281,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   child: ListTile(
                                     onTap: () {
                                       setState(() {
-                                        data.add(predictions[index]);
+                                        complaintsList.add(predictions[index]);
                                       });
                                     },
                                     title: Text(
@@ -261,7 +294,6 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 );
                         }),
                   ),
-                  
                 ],
               ),
             ],
@@ -273,8 +305,8 @@ class _PatientDetailsState extends State<PatientDetails> {
   }
 
   Iterable<Widget> get symptoms {
-    return data.map((e) {
-      int index = data.lastIndexOf(e);
+    return complaintsList.map((e) {
+      int index = complaintsList.lastIndexOf(e);
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: Chip(
@@ -286,13 +318,11 @@ class _PatientDetailsState extends State<PatientDetails> {
           label: Text(
             e,
             style: GoogleFonts.aBeeZee(
-              color: Colors.white,
-              fontWeight: FontWeight.bold
-            ),
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
           onDeleted: () {
             setState(() {
-              data.removeAt(index);
+              complaintsList.removeAt(index);
             });
           },
         ),

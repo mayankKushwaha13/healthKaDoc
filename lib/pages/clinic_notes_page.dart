@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:prescription/pages/prescription_page.dart';
 import 'package:prescription/widgets/circular_design.dart';
 import 'package:prescription/widgets/prescriptionWidgets/follow_up_section.dart';
 import '../widgets/prescriptionWidgets/vitals_entry.dart';
@@ -23,17 +25,37 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
   // Dropdown menu options for vitals
   List<String> vitalOptions = [
     'Blood Pressure',
-    'Pulse',
+    'Heart Rate',
+    'Respiratory Rate',
+    'Pulse Pressure',
+    'Oxygen Saturation',
+    'Pulse Rhythm',
+    'SpO2',
+    'Blood Glucose Levels',
+    'Height',
+    'Weight',
+    'GCS',
     'Temperature',
-    'Oxygen Saturation'
+    'Capnography',
+    'Skin Color'
   ];
 
   // Dropdown menu options for medicine type, dose, duration, frequency, timing
-  List<String> medicineTypes = ['Tablet', 'Capsule', 'Syrup', 'Injection'];
-  List<String> doses = ['1', '2', '3', '4'];
+  List<String> medicineTypes = [
+    'Tablet', 'Drop', 'Injection', 'Ointment', 'Capsule', 'Syrup', 'Suspension', 'Cream',
+    'Gel', 'Inhaler', 'Solution', 'Spray',
+    ];
+  List<String> doses = [
+    for(int i = 1; i < 11; i++)
+    i.toString(),
+  ];
   List<String> durations = ['1 day', '2 days', '3 days', '1 week', '2 weeks'];
-  List<String> frequencies = ['Once a day', 'Twice a day', 'Thrice a day'];
-  List<String> timings = ['Morning', 'Afternoon', 'Evening', 'Night'];
+  List<String> frequencies = [
+    '1-1-1','1-1-0','1-0-1','1-0-0','0-1-1','0-1-0','0-0-1',
+    '4-T','Q-1-H','Q-2-H','Q-3-H','Q-4-H','Q-6-H','Q-8-H','Q-12-H',
+    'SOS'
+  ];
+  List<String> timings = ['After Meal', 'Before Meal', 'Fasting'];
 
   List<Map<String, String>> vitalsResults =
       []; // List to store vitals and results
@@ -56,19 +78,12 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
   void initState() {
     super.initState();
     // Initialize with one default entry for vitals and results
-    vitalsResults.add({'vital': vitalOptions[0], 'result': ''});
+    vitalsResults.add({});
     // Initialize with one default entry for medicine
     medicines.add({
-      'name': '',
-      'instructions': '',
-      'type': medicineTypes[0],
-      'dose': doses[0],
-      'duration': durations[0],
-      'frequency': frequencies[0],
-      'timing': timings[0],
     });
     // Initialize with one default entry for tests
-    tests.add({'name': '', 'message': ''});
+    tests.add({});
   }
 
   @override
@@ -196,10 +211,13 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                   vitalsResults: vitalsResults,
                                   onRemove: (i) =>
                                       setState(() => vitalsResults.removeAt(i)),
-                                  onUpdate: (i, key, value) =>
-                                      setState(() => vitalsResults[i][key] = value),
-                                  onAdd: () => setState(() => vitalsResults.add(
-                                      {'vital': vitalOptions[0], 'result': ''})),
+                                  onUpdate: (i, key, value) => setState(
+                                      () => vitalsResults[i][key] = value),
+                                  onAdd: () => setState(() => vitalsResults
+                                          .add({
+                                        'vital': vitalOptions[0],
+                                        'result': ''
+                                      })),
                                 ),
                             ],
                           ),
@@ -216,8 +234,8 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                 buildSectionTitle('Enter Tests:'),
                                 IconButton(
                                     onPressed: () {
-                                      setState(() =>
-                                          tests.add({'name': "", 'message': ''}));
+                                      setState(() => tests
+                                          .add({'name': "", 'message': ''}));
                                     },
                                     icon: const CircleAvatar(
                                       backgroundColor: Colors.indigo,
@@ -239,8 +257,8 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                       setState(() => tests.removeAt(i)),
                                   onUpdate: (i, key, value) =>
                                       setState(() => tests[i][key] = value),
-                                  onAdd: () => setState(
-                                      () => tests.add({'name': '', 'message': ''})),
+                                  onAdd: () => setState(() =>
+                                      tests.add({'name': '', 'message': ''})),
                                 ),
                             ],
                           ),
@@ -275,7 +293,9 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                           ),
                           Column(
                             children: [
-                              for (int index = 0; index < medicines.length; index++)
+                              for (int index = 0;
+                                  index < medicines.length;
+                                  index++)
                                 MedicineEntry(
                                   index: index,
                                   medicineTypes: medicineTypes,
@@ -319,10 +339,37 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.blue.shade700),
                               child: InkWell(
-                                borderRadius: BorderRadius.circular(12),
-                                  onTap: () {},
+                                  borderRadius: BorderRadius.circular(12),
+                                  onTap: () async {
+                                    PermissionStatus storageStatus = await Permission.storage.request();
+                                    if (storageStatus == PermissionStatus.permanentlyDenied){
+                                      openAppSettings();
+                                    }
+                                    createPrescription(
+                                      dateController: dateController,
+                                          timeController: timeController,
+                                          nameController: nameController,
+                                          ageController: ageController,
+                                          phoneController: phoneController,
+                                          complaints:
+                                              complaintsList,
+                                          gender: gender,
+                                          vitalsResults: vitalsResults,
+                                          medicines: medicines,
+                                          tests: tests,
+                                          diagnosis:
+                                              diagnosisList,
+                                          generalAdviceController:
+                                              generalAdviceController,
+                                          referralController:
+                                              referralController,
+                                          surgeryAdviceController:
+                                              surgeryAdviceController,
+                                    );
+                                  },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 10),
                                     child: Text(
                                       'Save',
                                       style: GoogleFonts.aBeeZee(
@@ -356,6 +403,26 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
           color: Colors.red.shade700),
     );
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.dispose();
+    ageController.dispose();
+    phoneController.dispose();
+    complaintController.dispose();
+    dateController.dispose();
+    timeController.dispose();
+    generalAdviceController.dispose();
+    referralController.dispose();
+    surgeryAdviceController.dispose();
+    diagnosisController.dispose();
+    complaintsList.clear();
+    diagnosisList.clear();
+    predictions.clear();
+    predictions2.clear();
+    diagnosis.clear();
+    super.dispose();
+  }
 }
 
 class DecorationPrescription extends StatelessWidget {
@@ -371,18 +438,78 @@ class DecorationPrescription extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        CircularDesign(radius: 200, color: Colors.indigo, x: width/2,y: 500,),
-        CircularDesign(radius: 150, color: Colors.indigo, x: width/2,y: 600,),
-        CircularDesign(radius: 200, color: Colors.indigo, x: -width/2,y: 500,),
-        CircularDesign(radius: 150, color: Colors.indigo, x: -width/2,y: 600,),
-        CircularDesign(radius: 200, color: Colors.indigo, x: width/2,y: 1450,),
-        CircularDesign(radius: 150, color: Colors.indigo, x: width/2,y: 1550,),
-        CircularDesign(radius: 200, color: Colors.indigo, x: -width/2,y: 1450,),
-        CircularDesign(radius: 150, color: Colors.indigo, x: -width/2,y: 1550,),
-        CircularDesign(radius: 200, color: Colors.indigo, x: -width/2,y: 2600,),
-        CircularDesign(radius: 150, color: Colors.indigo, x: -width/2,y: 2700,),
-        CircularDesign(radius: 200, color: Colors.indigo, x: width/2,y: 2600,),
-        CircularDesign(radius: 150, color: Colors.indigo, x: width/2,y: 2700,),
+        CircularDesign(
+          radius: 200,
+          color: Colors.indigo,
+          x: width / 2,
+          y: 500,
+        ),
+        CircularDesign(
+          radius: 150,
+          color: Colors.indigo,
+          x: width / 2,
+          y: 600,
+        ),
+        CircularDesign(
+          radius: 200,
+          color: Colors.indigo,
+          x: -width / 2,
+          y: 500,
+        ),
+        CircularDesign(
+          radius: 150,
+          color: Colors.indigo,
+          x: -width / 2,
+          y: 600,
+        ),
+        CircularDesign(
+          radius: 200,
+          color: Colors.indigo,
+          x: width / 2,
+          y: 1450,
+        ),
+        CircularDesign(
+          radius: 150,
+          color: Colors.indigo,
+          x: width / 2,
+          y: 1550,
+        ),
+        CircularDesign(
+          radius: 200,
+          color: Colors.indigo,
+          x: -width / 2,
+          y: 1450,
+        ),
+        CircularDesign(
+          radius: 150,
+          color: Colors.indigo,
+          x: -width / 2,
+          y: 1550,
+        ),
+        CircularDesign(
+          radius: 200,
+          color: Colors.indigo,
+          x: -width / 2,
+          y: 2600,
+        ),
+        CircularDesign(
+          radius: 150,
+          color: Colors.indigo,
+          x: -width / 2,
+          y: 2700,
+        ),
+        CircularDesign(
+          radius: 200,
+          color: Colors.indigo,
+          x: width / 2,
+          y: 2600,
+        ),
+        CircularDesign(
+          radius: 150,
+          color: Colors.indigo,
+          x: width / 2,
+          y: 2700,
+        ),
       ],
     );
   }

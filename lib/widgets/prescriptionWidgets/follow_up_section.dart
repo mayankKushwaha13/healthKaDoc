@@ -33,6 +33,7 @@ class _FollowUpSectionState extends State<FollowUpSection> {
                 color: Colors.pink.shade900
               ),
               child: TextFormField(
+                style: GoogleFonts.aBeeZee(color: Colors.white),
                 textAlignVertical: TextAlignVertical.center,
                 controller: widget.dateController,
                 decoration: InputDecoration(
@@ -61,6 +62,7 @@ class _FollowUpSectionState extends State<FollowUpSection> {
                 color: Colors.pink.shade900
               ),
               child: TextFormField(
+                style: GoogleFonts.aBeeZee(color: Colors.white),
                 textAlignVertical: TextAlignVertical.center,
                 controller: widget.timeController,
                 decoration: InputDecoration(
