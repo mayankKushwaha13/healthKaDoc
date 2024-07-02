@@ -14,7 +14,7 @@ class DoctorContainer extends StatefulWidget {
 class _DoctorContainerState extends State<DoctorContainer> {
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
       height: 400,
