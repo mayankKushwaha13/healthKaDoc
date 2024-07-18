@@ -8,7 +8,6 @@ import 'package:prescription/data/doctor_database.dart';
 import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/data/user_database.dart';
 import 'package:prescription/model/doctor.dart';
-import 'package:prescription/model/user.dart';
 import 'package:prescription/widgets/drawer_widget.dart';
 import 'package:prescription/widgets/edit_box_widget.dart';
 import 'package:prescription/widgets/my_appbar_widget.dart';
@@ -41,26 +40,38 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: DrawerWidget(),
+        backgroundColor: Colors.indigo.shade50,
+        drawer: const DrawerWidget(),
         body: FutureBuilder(
           future: DoctorDatabase().readAllData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Doctor> doctorList = snapshot.data![0];
-              Doctor doctor = doctorList[doctorList.indexWhere((e)=>e.doctorID == SP.sp!.getString(SP.user))];
+              Doctor doctor = doctorList[doctorList
+                  .indexWhere((e) => e.doctorID == SP.sp!.getString(SP.user))];
               List<Clinic> clinicList = snapshot.data![1];
-              Clinic clinic = clinicList[clinicList.indexWhere((e)=>e.doctorID == SP.sp!.getString(SP.user))];
+              Clinic clinic = clinicList[clinicList.indexWhere((e) =>
+                  e.doctorID == SP.sp!.getString(SP.user) &&
+                  e.clinicID == SP.sp!.getString(SP.currClinic))];
               List<Address> addressList = snapshot.data![2];
-              Address address = addressList[addressList.indexWhere((e)=>e.doctorID == SP.sp!.getString(SP.user))];
-              List addr = [address.landmark, address.lane, address.addressOne, address.city, address.state, address.country];
+              Address address = addressList[addressList
+                  .indexWhere((e) => e.doctorID == SP.sp!.getString(SP.user))];
+              List addr = [
+                address.landmark,
+                address.lane,
+                address.addressOne,
+                address.city,
+                address.state,
+                address.country
+              ];
               return SingleChildScrollView(
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     Column(
                       children: [
-                        MyAppBar(title: "Doctor Information"),
-                        SizedBox(
+                        const MyAppBar(title: "Doctor Information"),
+                        const SizedBox(
                           height: 30,
                         ),
                         Row(
@@ -73,79 +84,125 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   "lib/assets/doctor.png",
                                   width: 120,
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               width: 30,
                             ),
                             Text(
-                              doctor.firstName + "\n" + doctor.secondName,
+                              "${doctor.firstName}\n${doctor.secondName}",
                               style: GoogleFonts.josefinSans(
                                 fontSize: 22,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Row(
                           children: [
                             PersonalInformationDocWidget(
-                              title: "DOB", 
+                              title: "DOB",
                               subtitle: doctor.dob,
-                              icon: Icon(CupertinoIcons.calendar, color: Colors.indigo.shade700,),
+                              icon: Icon(
+                                CupertinoIcons.calendar,
+                                color: Colors.pink.shade700,
+                              ),
                             ),
                             PersonalInformationDocWidget(
-                              title: "Degree", 
+                              title: "Degree",
                               subtitle: doctor.qualification,
-                              icon: Icon(Icons.school, color: Colors.indigo.shade700,),
+                              icon: Icon(
+                                Icons.school,
+                                color: Colors.indigo.shade700,
+                              ),
                             )
                           ],
-                        ),Row(
+                        ),
+                        Row(
                           children: [
                             PersonalInformationDocWidget(
-                              title: "Gender", 
-                              subtitle: doctor.gender.substring(0,1).toUpperCase(),
-                              icon: Icon(CupertinoIcons.calendar, color: Colors.indigo.shade700,),
+                              title: "Gender",
+                              subtitle:
+                                  doctor.gender.substring(0, 1).toUpperCase(),
+                              icon: Icon(
+                                doctor.gender.substring(0, 1).toUpperCase() ==
+                                        "M"
+                                    ? Icons.male
+                                    : Icons.female,
+                                color: doctor.gender
+                                            .substring(0, 1)
+                                            .toUpperCase() ==
+                                        "M"
+                                    ? Colors.indigo.shade700
+                                    : Colors.pink.shade700,
+                              ),
                             ),
                             PersonalInformationDocWidget(
-                              title: "Specialization", 
+                              title: "Specialization",
                               subtitle: doctor.specialization,
-                              icon: Icon(Icons.school, color: Colors.indigo.shade700,),
+                              icon: Image.asset(
+                                "lib/assets/stethoscope.png",
+                                height: 24,
+                                color: Colors.red.shade700,
+                              ),
                             )
                           ],
                         ),
                         Row(
                           children: [
                             PersonalInformationDocWidget(
-                              title: "Phone No.", 
+                              title: "Phone No.",
                               subtitle: doctor.phoneNumber,
-                              icon: Icon(CupertinoIcons.calendar, color: Colors.indigo.shade700,),
+                              icon: Icon(
+                                CupertinoIcons.phone,
+                                color: Colors.indigo.shade700,
+                              ),
                             ),
                             PersonalInformationDocWidget(
-                              title: "Experience", 
+                              title: "Experience",
                               subtitle: doctor.experience,
-                              icon: Icon(Icons.school, color: Colors.indigo.shade700,),
+                              icon: Icon(
+                                CupertinoIcons.star_circle,
+                                color: Colors.yellow.shade900,
+                              ),
                             )
                           ],
                         ),
                         Row(
                           children: [
                             PersonalInformationDocWidget(
-                              title: "Email", 
+                              title: "Email",
                               subtitle: doctor.email,
-                              icon: Icon(CupertinoIcons.calendar, color: Colors.indigo.shade700,),
+                              icon: Icon(
+                                CupertinoIcons.mail,
+                                color: Colors.red.shade700,
+                              ),
                             ),
-                            
+                            PersonalInformationDocWidget(
+                              title: "Current Clinic",
+                              subtitle: clinic.clinicName,
+                              icon: Icon(
+                                Icons.local_hospital,
+                                color: Colors.red.shade700,
+                              ),
+                            ),
                           ],
                         ),
                         Row(
                           children: [
                             PersonalInformationDocWidget(
-                                  title: "Address", 
-                                  subtitle: addr.join(", "),
-                                  icon: Icon(Icons.school, color: Colors.indigo.shade700,),
-                                ),
+                              title: "Address",
+                              subtitle: addr.join(", "),
+                              icon: Icon(
+                                CupertinoIcons.location_solid,
+                                color: Colors.amber.shade900,
+                              ),
+                            ),
                           ],
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Ink(
                           decoration: BoxDecoration(
                             color: Colors.indigo,
@@ -164,7 +221,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                         MediaQuery.of(context).size.width / 2 -
                                             30,
                                     vertical: 10),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.edit,
                                   color: Colors.white,
                                 ),
@@ -188,7 +245,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             "email": emailController.text.toString(),
                           };
                           var response = await http.post(
-                            Uri.parse("${docAPI}/update_doctor_profile_mobile"),
+                            Uri.parse("$docAPI/update_doctor_profile_mobile"),
                             headers: {
                               'Content-type': 'application/json',
                               'Accept': 'application/json',
@@ -209,7 +266,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             "phone_number": phoneController.text.toString(),
                           };
                           var response = await http.post(
-                            Uri.parse("${docAPI}/update_doctor_profile_mobile"),
+                            Uri.parse("$docAPI/update_doctor_profile_mobile"),
                             headers: {
                               'Content-type': 'application/json',
                               'Accept': 'application/json',
@@ -236,7 +293,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                 ),
               );
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -258,13 +315,13 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
     int clinFound =
         clinicList.indexWhere((e) => e.doctorID == SP.sp!.getString(SP.user));
     if (docFound == -1 || addFound == -1 || clinFound == -1) {
-      var response = await http.post(
-          Uri.parse("${docAPI}/get_clinic_doctors_mobile"),
-          headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: jsonEncode({'doctor_id': SP.sp!.getString(SP.user)}));
+      var response =
+          await http.post(Uri.parse("$docAPI/get_clinic_doctors_mobile"),
+              headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: jsonEncode({'doctor_id': SP.sp!.getString(SP.user)}));
       if (response.statusCode == 200) {
         var result = jsonDecode(response.body);
         Map<String, dynamic> toAddDoc = result['doctorData'].first;
@@ -289,4 +346,3 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
     }
   }
 }
-

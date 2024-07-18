@@ -1,4 +1,3 @@
-import 'package:prescription/data/shared_preference.dart';
 
 class Doctor {
   final String doctorID;

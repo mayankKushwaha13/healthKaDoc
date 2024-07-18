@@ -1,11 +1,11 @@
 List<Map<String, dynamic>> vitalsConverter(List<Map<String, String>> map) {
   List<Map<String, dynamic>> vitals = [];
-  map.forEach((e) {
+  for (var e in map) {
     vitals.add({
       'vites_name': e['vital'],
       'vite_result': e['result'],
     });
-  });
+  }
   return vitals;
 }
 
@@ -16,19 +16,19 @@ List<Map<String, dynamic>> diagnosisConverter(
   diagnosis.add({
     "advice" : diagnosisList.join(", "), 
   });
-  tests.forEach((e){
+  for (var e in tests) {
     diagnosis.add({
       'test_name' : e['name'],
       'advice' : e['message']
     });
-  });
+  }
 
   return diagnosis;
 }
 
 List<Map<String, dynamic>> medicineConverter(List<Map<String, String>> map){
   List<Map<String, dynamic>> medicines = [];
-  map.forEach((e){
+  for (var e in map) {
     medicines.add({
       'medicine_name' : e['name'],
       'medicine_type' : e['type'],
@@ -38,7 +38,7 @@ List<Map<String, dynamic>> medicineConverter(List<Map<String, String>> map){
       'advice' : e['instructions']
     }
     );
-  });
+  }
 
   return medicines;
 }

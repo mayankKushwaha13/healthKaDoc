@@ -62,12 +62,12 @@ class _SplashPageState extends State<SplashPage> {
         }
         else{
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => LoginPage()));
+          builder: (context) => const LoginPage()));
         }
       }
       else{
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => LoginPage()));
+          builder: (context) => const LoginPage()));
       }
     });
   }

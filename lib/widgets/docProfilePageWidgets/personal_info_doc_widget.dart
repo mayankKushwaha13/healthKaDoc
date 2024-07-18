@@ -31,7 +31,7 @@ class PersonalInformationDocWidget extends StatelessWidget {
               fontSize: 16
             ),
           ),
-          Divider(thickness: 2,)
+          const Divider(thickness: 2,)
         ],
       ),
       leading: icon,

@@ -35,11 +35,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       elevation: 200,
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 200,
             child: DrawerHeader(
-              margin: EdgeInsets.all(0),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.all(0),
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
               child: Image.asset("lib/assets/nexus.png"),
@@ -144,7 +144,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                 borderRadius: BorderRadius.circular(10)),
                             tileColor: Colors.pink.shade700,
                             contentPadding:
-                                EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                                const EdgeInsets.only(top: 10, bottom: 10, left: 20),
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(10000),
                               // child: Image.network(
@@ -191,7 +191,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             onTap: () async {
               SP.sp!.setBool(SP.login, false);
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
           )
         ],
@@ -234,7 +234,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           temp.indexWhere((e) => e['clinicName'] == clinics[i].clinicName);
       if (toAddOrNotToAdd == -1) {
         var response = await http.post(
-          Uri.parse("${docAPI}/change_clinic_mobile"),
+          Uri.parse("$docAPI/change_clinic_mobile"),
           body: jsonEncode(
               {'clinic_id': clinics[i].clinicID, 'doctor_id': clinics[i].user}),
           headers: {

@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:prescription/constants/API%20links/patientAPI.dart';
 import 'package:prescription/constants/API%20links/prescriptionAPI.dart';
 import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/functions/forPrescriptionAPI.dart';
@@ -450,16 +449,15 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
       "follow_up_date": dateController.text,
       "follow_up_time": timeController.text
     };
-    print(1);
     var response = await http.post(
-      Uri.parse("${presAPI}/create_prescription_mobile"),
+      Uri.parse("$presAPI/create_prescription_mobile"),
       headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json'
       },
       body: jsonEncode(body),
     );
-    print(2);
+    print(response.statusCode);
   }
 
   @override

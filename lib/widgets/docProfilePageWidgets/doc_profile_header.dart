@@ -57,7 +57,7 @@ class DocProfileHeader extends StatelessWidget {
                   ),
                   const SizedBox(height: 30,),
                   Text(
-                    "Dr. " + SP.sp!.getString(SP.firstName)!,
+                    "Dr. ${SP.sp!.getString(SP.firstName)!}",
                     style: GoogleFonts.lato(
                       fontSize: 30,
                       color: Colors.white,

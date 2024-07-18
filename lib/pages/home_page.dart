@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prescription/data/shared_preference.dart';
-import 'package:prescription/data/user_database.dart';
-import 'package:prescription/model/user.dart';
 import 'package:prescription/widgets/drawer_widget.dart';
 import 'package:prescription/widgets/homePageWidgets/doctor_container.dart';
 import 'package:prescription/widgets/header.dart';
-import 'package:prescription/widgets/homePageWidgets/my_bar_chart.dart';
 import 'package:prescription/widgets/homePageWidgets/my_line_chart.dart';
 import 'package:prescription/widgets/homePageWidgets/patientsWidget.dart';
 import 'package:prescription/widgets/homePageWidgets/recordsWidget.dart';
@@ -20,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    String name = SP.sp!.getString(SP.firstName)! + " " + SP.sp!.getString(SP.secondName)!;
+    String name = "${SP.sp!.getString(SP.firstName)!} ${SP.sp!.getString(SP.secondName)!}";
     return SafeArea(
       child: Scaffold(
         drawer: const DrawerWidget(),
@@ -42,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              MyLineChart(),
+              const MyLineChart(),
               // Not needed now
               // MyBarChart(), 
               

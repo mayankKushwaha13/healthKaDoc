@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prescription/constants/API%20links/doctorAPI.dart';
-import 'package:prescription/constants/tempdata.dart';
 import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/data/user_database.dart';
 import 'package:prescription/model/user.dart';
@@ -12,10 +10,9 @@ import 'package:prescription/pages/home_page.dart';
 import 'package:prescription/widgets/circular_design.dart';
 import 'package:prescription/widgets/textfieldsWidgets/my_textfield.dart';
 import 'package:http/http.dart' as http;
-import 'package:prescription/widgets/prescriptionWidgets/patient_details.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -70,10 +67,10 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Image(
+                      Image(
                         image: AssetImage("lib/assets/nexus_.png"),
                         height: 180,
                       ),
@@ -167,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: isLogging
-                                ? Center(
+                                ? const Center(
                                     child: CircularProgressIndicator(
                                       color: Colors.white,
                                     ),
@@ -208,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
         };
         String jsonBody = jsonEncode(body);
         var response = await http.post(
-          Uri.parse("${docAPI}/mobile_login"),
+          Uri.parse("$docAPI/mobile_login"),
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',

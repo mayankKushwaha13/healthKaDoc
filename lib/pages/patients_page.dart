@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:prescription/constants/colors.dart';
 import 'package:prescription/pages/patient_profile_page.dart';
 import 'package:prescription/widgets/drawer_widget.dart';
 import 'package:prescription/widgets/header.dart';
@@ -80,7 +79,7 @@ class _PatientsPageState extends State<PatientsPage> {
                     patientList.isEmpty
                         ? Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Text(
@@ -98,7 +97,7 @@ class _PatientsPageState extends State<PatientsPage> {
                               Patient patient = patientList[index];
                               return Card(
                                 elevation: 2,
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     horizontal: 13, vertical: 5),
                                 color: Colors.indigo.shade50,
                                 child: ListTile(
@@ -202,7 +201,7 @@ class _PatientsPageState extends State<PatientsPage> {
       'doctor_id': SP.sp!.getString(SP.user),
       'clinic_id': SP.sp!.getString(SP.currClinic)
     };
-    var uri = Uri.parse("${patientAPI}/get_all_patient_mobile");
+    var uri = Uri.parse("$patientAPI/get_all_patient_mobile");
     var response = await http.post(
       uri,
       headers: {

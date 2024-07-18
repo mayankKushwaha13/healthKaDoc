@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
 import 'package:prescription/model/doctor.dart';
-import 'package:prescription/model/patient.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DoctorDatabase {

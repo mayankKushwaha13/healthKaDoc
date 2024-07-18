@@ -39,13 +39,13 @@ class _AssociatedClinicsPageState extends State<AssociatedClinicsPage> {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
-                      MyAppBar(title: "Associated Clinics"),
-                      SizedBox(
+                      const MyAppBar(title: "Associated Clinics"),
+                      const SizedBox(
                         height: 30,
                       ),
                       ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: clinics.length,
                           itemBuilder: (context, index) {
                             var clinic = clinics[index];
@@ -55,7 +55,7 @@ class _AssociatedClinicsPageState extends State<AssociatedClinicsPage> {
                                 .clinicID;
                             return Card(
                               elevation: 3,
-                              margin: EdgeInsets.all(13),
+                              margin: const EdgeInsets.all(13),
                               color: Colors.indigo.shade50,
                               child: Padding(
                                 padding: const EdgeInsets.all(13),
