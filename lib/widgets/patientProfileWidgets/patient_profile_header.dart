@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 class PatientProfileHeader extends StatelessWidget {
   const PatientProfileHeader({
     super.key,
+    required this.name
   });
-
+  final String name;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +64,7 @@ class PatientProfileHeader extends StatelessWidget {
                     height: 30,
                   ),
                   Text(
-                    "Mokshit",
+                    name,
                     style: GoogleFonts.lato(
                       fontSize: 30,
                       color: Colors.white,

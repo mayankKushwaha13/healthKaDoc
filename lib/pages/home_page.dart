@@ -1,5 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:prescription/data/shared_preference.dart';
+import 'package:prescription/data/user_database.dart';
+import 'package:prescription/model/user.dart';
 import 'package:prescription/widgets/drawer_widget.dart';
 import 'package:prescription/widgets/homePageWidgets/doctor_container.dart';
 import 'package:prescription/widgets/header.dart';
@@ -18,18 +20,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    String name = SP.sp!.getString(SP.firstName)! + " " + SP.sp!.getString(SP.secondName)!;
+    return SafeArea(
       child: Scaffold(
-        drawer: DrawerWidget(),
+        drawer: const DrawerWidget(),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Header(),
+              const Header(),
               DoctorContainer(
-                doctor: "Dr. Mayank Kushwaha",
+                doctor: "Dr. $name",
               ),
-              AppointmentContainer(),
-              Padding(
+              const AppointmentContainer(),
+              const Padding(
                 padding: EdgeInsets.all(15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +43,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               MyLineChart(),
-              MyBarChart(),
+              // Not needed now
+              // MyBarChart(), 
+              
             ],
           ),
         ),
@@ -48,4 +53,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

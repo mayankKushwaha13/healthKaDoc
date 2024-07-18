@@ -96,6 +96,12 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Necessary Field';
+            }
+            return null;
+          },
           controller: widget.nameController,
           style: GoogleFonts.lato(color: Colors.white),
           decoration: InputDecoration(
@@ -111,6 +117,12 @@ class _PatientDetailsState extends State<PatientDetails> {
           children: [
             Expanded(
               child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Necessary Field';
+                  }
+                  return null;
+                },
                 controller: widget.ageController,
                 style: GoogleFonts.lato(color: Colors.white),
                 decoration: InputDecoration(
@@ -150,6 +162,12 @@ class _PatientDetailsState extends State<PatientDetails> {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Necessary Field';
+            }
+            return null;
+          },
           controller: widget.phoneController,
           style: GoogleFonts.lato(color: Colors.white),
           decoration: InputDecoration(
@@ -191,13 +209,16 @@ class _PatientDetailsState extends State<PatientDetails> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                        onPressed: (){
+                    suffixIcon: IconButton(
+                        onPressed: () {
                           setState(() {
                             widget.complaintController.clear();
                           });
-                        }
-                      , icon: Icon(CupertinoIcons.multiply, color: Colors.red.shade900,)),
+                        },
+                        icon: Icon(
+                          CupertinoIcons.multiply,
+                          color: Colors.red.shade900,
+                        )),
                     hintText: 'Complaints',
                     hintStyle: GoogleFonts.lato(color: Colors.black54)),
                 controller: widget.complaintController,
@@ -229,26 +250,32 @@ class _PatientDetailsState extends State<PatientDetails> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount:
-                            predictions2.isEmpty ? 1 : predictions2.length < 3 ? predictions2.length : 3,
+                        itemCount: predictions2.isEmpty
+                            ? 1
+                            : predictions2.length < 3
+                                ? predictions2.length
+                                : 3,
                         itemBuilder: (context, index) {
                           return predictions2.isEmpty
-                              ? widget.complaintController.text == "" ? Container():Card(
-                                  color: Colors.indigo.shade500,
-                                  child: ListTile(
-                                    onTap: () {
-                                      setState(() {
-                                        complaintsList.add(widget.complaintController.text);
-                                      });
-                                    },
-                                    title: Text(
-                                      widget.complaintController.text,
-                                      style: GoogleFonts.aBeeZee(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                )
+                              ? widget.complaintController.text == ""
+                                  ? Container()
+                                  : Card(
+                                      color: Colors.indigo.shade500,
+                                      child: ListTile(
+                                        onTap: () {
+                                          setState(() {
+                                            complaintsList.add(widget
+                                                .complaintController.text);
+                                          });
+                                        },
+                                        title: Text(
+                                          widget.complaintController.text,
+                                          style: GoogleFonts.aBeeZee(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    )
                               : Card(
                                   color: Colors.indigo.shade500,
                                   child: ListTile(

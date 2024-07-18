@@ -4,7 +4,8 @@ import 'package:prescription/widgets/patientProfileWidgets/recent_visits.dart';
 import 'package:prescription/widgets/patientProfileWidgets/vitals_container.dart';
 
 class PatientProfilePage extends StatelessWidget {
-  const PatientProfilePage({super.key});
+  const PatientProfilePage({super.key, required this.name});
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,9 @@ class PatientProfilePage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const PatientProfileHeader(),
+              PatientProfileHeader(
+                name: name,
+              ),
               const VitalsContainer(),
               Padding(
                 padding: const EdgeInsets.only(left: 13.0,right: 13,bottom: 10),

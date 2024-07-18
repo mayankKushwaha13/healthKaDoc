@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:prescription/pages/home_page.dart';
+import 'package:prescription/data/shared_preference.dart';
+import 'package:prescription/pages/splash_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SP.init();
   runApp(const MyApp());
 }
 
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const SplashPage(),
     );
   }
 }

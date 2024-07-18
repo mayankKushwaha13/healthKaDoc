@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prescription/constants/colors.dart';
-import 'package:prescription/pages/doc_profile.dart';
+import 'package:prescription/pages/docProfilePages/doc_profile.dart';
 
 class Header extends StatefulWidget {
-  const Header({super.key});
+  const Header({super.key, this.onChanged});
+  final void Function(String)? onChanged;
 
   @override
   State<Header> createState() => _HeaderState();
@@ -38,10 +39,15 @@ class _HeaderState extends State<Header> {
             ),
             Expanded(
                 child: TextField(
+                  onChanged: widget.onChanged,
               decoration: InputDecoration(
                   hintText: "Search...",
                   suffixIcon: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        setState(() {
+                          FocusScope.of(context).unfocus();
+                        });
+                      },
                       child: const Icon(
                         Icons.search,
                         size: 28,

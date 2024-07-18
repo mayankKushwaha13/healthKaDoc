@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prescription/data/shared_preference.dart';
 
 class DocProfileHeader extends StatelessWidget {
   const DocProfileHeader({
@@ -56,7 +57,7 @@ class DocProfileHeader extends StatelessWidget {
                   ),
                   const SizedBox(height: 30,),
                   Text(
-                    "Dr. MAYANK",
+                    "Dr. " + SP.sp!.getString(SP.firstName)!,
                     style: GoogleFonts.lato(
                       fontSize: 30,
                       color: Colors.white,

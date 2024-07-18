@@ -7,6 +7,9 @@ import 'package:pdf/pdf.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:prescription/data/shared_preference.dart';
+import 'package:prescription/data/user_database.dart';
+import 'package:prescription/model/user.dart';
 import 'package:printing/printing.dart';
 
 createPrescription({
@@ -25,8 +28,12 @@ createPrescription({
   required TextEditingController referralController,
   required TextEditingController surgeryAdviceController,
 }) async {
-  var docImage =
-      (await rootBundle.load("lib/assets/doctor3.png")).buffer.asUint8List();
+  List<DoctorData> doctorData = await UserDatabase().readDocInfo();
+  DoctorData doctor = doctorData[doctorData.indexWhere((e)=>e.user == SP.sp!.getString(SP.user))];
+  List clinicData = await UserDatabase().readClinicDataMap();
+  var clinic = clinicData[clinicData.indexWhere((e)=> e['clinicID'] == SP.sp!.getString(SP.currClinic) )];
+  // var docImage = await networkImage(clinicImage['imageURL']);
+  var temp = clinic['profilePicture'].substring(0,5);
   var sign =
       (await rootBundle.load('lib/assets/signature.png')).buffer.asUint8List();
   final prescription = pw.Document();
@@ -76,25 +83,32 @@ createPrescription({
                       pw.Text("Doctor : ",
                           style: pw.TextStyle(
                               fontWeight: pw.FontWeight.bold, fontSize: 18)),
-                      pw.Text("Dr. ABC", style: const pw.TextStyle(fontSize: 18)),
+                      pw.Text("Dr. ${doctor.firstName}", style: const pw.TextStyle(fontSize: 18)),
                     ]),
                     pw.Row(children: [
                       pw.Text("Qualification : ",
                           style: pw.TextStyle(
                               fontWeight: pw.FontWeight.bold, fontSize: 18)),
-                      pw.Text("MBBS", style: const pw.TextStyle(fontSize: 18)),
+                      pw.Text(doctor.qualification, style: const pw.TextStyle(fontSize: 18)),
                     ]),
                     pw.Row(children: [
                       pw.Text("Specialisation : ",
                           style: pw.TextStyle(
                               fontWeight: pw.FontWeight.bold, fontSize: 18)),
-                      pw.Text("Cardiologist",
+                      pw.Text(doctor.specialization,
                           style: const pw.TextStyle(fontSize: 18)),
                     ]),
                   ],
                 ),
                 pw.Container(
-                  child: pw.Image(pw.MemoryImage(docImage), height: 80),
+                  // child: pw.Image(docImage, height: 80),
+                  child: pw.Text(
+                    temp,
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                      fontSize: 20
+                    )
+                  )
                 ),
               ],
             ),

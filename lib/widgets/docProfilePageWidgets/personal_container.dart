@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prescription/pages/docProfilePages/associated_clinics_page.dart';
+import 'package:prescription/pages/docProfilePages/personal_information_page.dart';
 
 class PersonalContainerDocProfile extends StatelessWidget {
   const PersonalContainerDocProfile({
@@ -17,68 +19,75 @@ class PersonalContainerDocProfile extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Text(
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PersonalInformationPage()));
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
                       "Personal Information",
                       style: GoogleFonts.lato(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Container(
-                    child: const Icon(
+                    const Icon(
                       Icons.arrow_forward_ios,
-                      size:15,
+                      size: 15,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-    
             Divider(
               color: Colors.grey.shade200,
               thickness: 2,
             ),
-    
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Text(
-                      "Associated Clinics",
-                      style: GoogleFonts.lato(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AssociatedClinicsPage()));
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: Text(
+                        "Associated Clinics",
+                        style: GoogleFonts.lato(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size:15,
+                    Container(
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-    
             Divider(
               color: Colors.grey.shade200,
               thickness: 2,
             ),
-    
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -94,20 +103,18 @@ class PersonalContainerDocProfile extends StatelessWidget {
                   Container(
                     child: const Icon(
                       Icons.arrow_forward_ios,
-                      size:15,
+                      size: 15,
                     ),
                   ),
                 ],
               ),
             ),
-    
             Divider(
               color: Colors.grey.shade200,
               thickness: 2,
             ),
-    
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -124,13 +131,12 @@ class PersonalContainerDocProfile extends StatelessWidget {
                   Container(
                     child: const Icon(
                       Icons.arrow_forward_ios,
-                      size:15,
+                      size: 15,
                     ),
                   ),
                 ],
               ),
             ),
-            
           ],
         ),
       ),
