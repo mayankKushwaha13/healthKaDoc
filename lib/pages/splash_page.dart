@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/pages/home_page.dart';
 import 'package:prescription/pages/login_page.dart';
@@ -17,7 +16,6 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkLogin();
   }

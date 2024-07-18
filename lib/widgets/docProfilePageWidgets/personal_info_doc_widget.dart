@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../model/doctor.dart';
-
 class PersonalInformationDocWidget extends StatelessWidget {
   const PersonalInformationDocWidget({
     super.key,
