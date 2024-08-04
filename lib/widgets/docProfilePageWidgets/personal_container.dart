@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:prescription/pages/docProfilePages/associated_clinics_page.dart';
 import 'package:prescription/pages/docProfilePages/personal_information_page.dart';
 
+import '../../data/shared_preference.dart';
+import '../../pages/login_page.dart';
+
 class PersonalContainerDocProfile extends StatelessWidget {
   const PersonalContainerDocProfile({
     super.key,
@@ -113,28 +116,36 @@ class PersonalContainerDocProfile extends StatelessWidget {
               color: Colors.grey.shade200,
               thickness: 2,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Text(
-                      "LOG OUT",
-                      style: GoogleFonts.lato(
-                        fontSize: 14,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: (){
+                SP.sp!.setBool(SP.login, false);
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: Text(
+                        "LOG OUT",
+                        style: GoogleFonts.lato(
+                          fontSize: 14,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
+                    Container(
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

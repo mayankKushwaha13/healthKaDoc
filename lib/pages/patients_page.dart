@@ -177,6 +177,7 @@ class _PatientsPageState extends State<PatientsPage> {
                                             builder: (context) =>
                                                 PatientProfilePage(
                                                   name: patient.patientName,
+                                                  phone: patient.phoneNumber,
                                                 )));
                                   },
                                 ),

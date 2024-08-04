@@ -20,7 +20,17 @@ import '../widgets/prescriptionWidgets/diagnosis.dart';
 import 'package:http/http.dart' as http;
 
 class ClinicNotesPage extends StatefulWidget {
-  const ClinicNotesPage({super.key});
+  const ClinicNotesPage({
+    super.key,
+    this.name = "",
+    this.age = "",
+    this.gender = "Male",
+    this.phone = "",
+  });
+  final String name;
+  final String age;
+  final String gender;
+  final String phone;
 
   @override
   _ClinicNotesPageState createState() => _ClinicNotesPageState();
@@ -96,7 +106,7 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
   final TextEditingController complaintController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
-  String gender = 'Male';
+  String gender = "Male";
   final TextEditingController generalAdviceController = TextEditingController();
   final TextEditingController referralController = TextEditingController();
   final TextEditingController surgeryAdviceController = TextEditingController();
@@ -111,6 +121,10 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
     medicines.add({});
     // Initialize with one default entry for tests
     tests.add({});
+    widget.gender.toUpperCase() == "M" ? gender = "Male" : gender = "Female";
+    nameController.text = widget.name;
+    ageController.text = widget.age;
+    phoneController.text = widget.phone;
   }
 
   @override
@@ -207,11 +221,14 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                             ),
                             const SizedBox(height: 24),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  buildSectionTitle('Enter Vitals and Results:'),
+                                  buildSectionTitle(
+                                      'Enter Vitals and Results:'),
                                   IconButton(
                                       onPressed: () {
                                         setState(() => vitalsResults.add({
@@ -238,8 +255,8 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                     index: index,
                                     vitalOptions: vitalOptions,
                                     vitalsResults: vitalsResults,
-                                    onRemove: (i) =>
-                                        setState(() => vitalsResults.removeAt(i)),
+                                    onRemove: (i) => setState(
+                                        () => vitalsResults.removeAt(i)),
                                     onUpdate: (i, key, value) => setState(
                                         () => vitalsResults[i][key] = value),
                                     onAdd: () => setState(() => vitalsResults
@@ -256,9 +273,11 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                             ),
                             const SizedBox(height: 24),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   buildSectionTitle('Enter Tests:'),
                                   IconButton(
@@ -278,7 +297,9 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                             ),
                             Column(
                               children: [
-                                for (int index = 0; index < tests.length; index++)
+                                for (int index = 0;
+                                    index < tests.length;
+                                    index++)
                                   TestEntry(
                                     index: index,
                                     tests: tests,
@@ -293,9 +314,11 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                             ),
                             const SizedBox(height: 24),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   buildSectionTitle('Enter Medicines:'),
                                   IconButton(
@@ -335,8 +358,8 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                     medicines: medicines,
                                     onRemove: (i) =>
                                         setState(() => medicines.removeAt(i)),
-                                    onUpdate: (i, key, value) =>
-                                        setState(() => medicines[i][key] = value),
+                                    onUpdate: (i, key, value) => setState(
+                                        () => medicines[i][key] = value),
                                     onAdd: () => setState(() => medicines.add({
                                           'name': '',
                                           'instructions': '',
@@ -370,31 +393,35 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
                                 child: InkWell(
                                     borderRadius: BorderRadius.circular(12),
                                     onTap: () async {
-                                      if(formKey.currentState!.validate()){PermissionStatus storageStatus =
-                                          await Permission.storage.request();
-                                      if (storageStatus ==
-                                          PermissionStatus.permanentlyDenied) {
-                                        openAppSettings();
+                                      if (formKey.currentState!.validate()) {
+                                        PermissionStatus storageStatus =
+                                            await Permission.storage.request();
+                                        if (storageStatus ==
+                                            PermissionStatus
+                                                .permanentlyDenied) {
+                                          openAppSettings();
+                                        }
+                                        prescriptionAPI();
+                                        createPrescription(
+                                          dateController: dateController.text,
+                                          timeController: timeController.text,
+                                          nameController: nameController.text,
+                                          ageController: ageController.text,
+                                          phoneController: phoneController.text,
+                                          complaints: complaintsList,
+                                          gender: gender,
+                                          vitalsResults: vitalsResults,
+                                          medicines: medicines,
+                                          tests: tests,
+                                          diagnosis: diagnosisList,
+                                          generalAdviceController:
+                                              generalAdviceController.text,
+                                          referralController:
+                                              referralController.text,
+                                          surgeryAdviceController:
+                                              surgeryAdviceController.text,
+                                        );
                                       }
-                                      prescriptionAPI();
-                                      createPrescription(
-                                        dateController: dateController,
-                                        timeController: timeController,
-                                        nameController: nameController,
-                                        ageController: ageController,
-                                        phoneController: phoneController,
-                                        complaints: complaintsList,
-                                        gender: gender,
-                                        vitalsResults: vitalsResults,
-                                        medicines: medicines,
-                                        tests: tests,
-                                        diagnosis: diagnosisList,
-                                        generalAdviceController:
-                                            generalAdviceController,
-                                        referralController: referralController,
-                                        surgeryAdviceController:
-                                            surgeryAdviceController,
-                                      );}
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -443,11 +470,28 @@ class _ClinicNotesPageState extends State<ClinicNotesPage> {
       "doctor_id": SP.sp!.getString(SP.user),
       "clinic_id": SP.sp!.getString(SP.currClinic),
       "vitals": vitalsConverter(vitalsResults),
-      "diagnosis": diagnosisConverter(tests: tests, diagnosisList: diagnosisList),
+      "case_history": diagnosisList.join(", "),
+      "diagnosis":
+          diagnosisConverter(tests: tests, diagnosisList: diagnosisList) ??
+              [
+                {
+                  "test_name": "null",
+                  "test_type": "null",
+                  "advice": "null",
+                }
+              ],
       "medicine": medicineConverter(medicines),
-      "follow_up": dateController.text.isNotEmpty || timeController.text.isNotEmpty ? true : false,
+      "follow_up":
+          dateController.text.isNotEmpty || timeController.text.isNotEmpty
+              ? true
+              : false,
       "follow_up_date": dateController.text,
-      "follow_up_time": timeController.text
+      "follow_up_time": timeController.text,
+      "prescription_date": DateTime.now().toString(),
+      "prescription_time": TimeOfDay.now().toString(),
+      "general_advice": generalAdviceController.text.toString(),
+      "surgery_advice": surgeryAdviceController.text.toString(),
+      "referral": referralController.text.toString()
     };
     var response = await http.post(
       Uri.parse("$presAPI/create_prescription_mobile"),

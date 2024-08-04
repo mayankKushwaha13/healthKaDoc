@@ -1,1 +1,1 @@
-const String docAPI = "http://192.168.1.13:8000/api/v1/mob_ile/doctors";
+const String docAPI = "http://192.168.0.223:8000/api/v1/mob_ile/doctors";

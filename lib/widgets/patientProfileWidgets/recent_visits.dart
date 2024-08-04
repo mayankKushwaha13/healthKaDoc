@@ -1,10 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:prescription/data/prescription_database.dart';
+import 'package:prescription/functions/forPrescriptionAPI.dart';
+import 'package:prescription/functions/getPrescription.dart';
+import 'package:prescription/pages/prescription_page.dart';
+
+import '../../data/shared_preference.dart';
+import '../../model/prescription.dart';
 
 class RecentVisits extends StatelessWidget {
   const RecentVisits({
+    required this.name,
+    required this.phone,
     super.key,
   });
+  final String name;
+  final String phone;
 
   @override
   Widget build(BuildContext context) {
@@ -28,321 +40,65 @@ class RecentVisits extends StatelessWidget {
                     letterSpacing: -0.6,
                   ),
                 ),
-                const SizedBox(height: 10,),
-                
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "15 May 2024",
-                                style: GoogleFonts.dmSans(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Cough and mild fever, headache",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "4 June",
-                                    style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                const SizedBox(
+                  height: 10,
+                ),
+                FutureBuilder(
+                    future: PrescriptionDB().readPrescriptions(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<Prescription> presList = snapshot.data!;
+                    presList = presList
+                        .where((e) =>
+                            (e.clinicID == SP.sp!.getString(SP.currClinic) &&
+                                (e.doctorID == SP.sp!.getString(SP.user))))
+                        .toList();
+                        var prescription = presList.where((e)=>e.patientName == name && e.phoneNumber == phone).toList();
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: prescription.length,
+                            itemBuilder: (context, index) {
+                              Prescription pres = prescription[index];
+                              return Card(
+                                elevation: 2,
+                                child: ListTile(
+                                  onTap: () async {
+                                    var data = await getSinglePrescription(presID: pres.prescriptionID);
+                                    createPrescription(
+                                        nameController: pres.patientName,
+                                        ageController: pres.age,
+                                        dateController: pres.createdAt.substring(0,10).split("-").reversed.join("/"),
+                                        timeController: pres.createdAt.substring(11,16),
+                                        phoneController: pres.phoneNumber,
+                                        gender: data['gender'],
+                                        vitalsResults: vitesConverter(data['vitals']),
+                                        medicines: medicinefromAPIconverter(data['medicine']),
+                                        tests: testsConverter(diagnosis: data['diagnosis']),
+                                        diagnosis: data['diagnosis'][0]['advice'].toString().split(","),);
+                                  },
+                                  title: Text(
+                                    pres.createdAt
+                                        .substring(0, 10)
+                                        .split("-")
+                                        .reversed
+                                        .join("/"),
+                                    style: GoogleFonts.aBeeZee(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  const Text(
-                                    "Follow Up",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 8,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(width: 10,),
-                              const Icon(
-                                Icons.check_circle,
-                                color: Color.fromARGB(255, 103, 241, 108),
-                                size: 17,
-                              )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.file_download_outlined,
-                                color: Colors.pink.shade300,
-                              ),
-            
-                              const SizedBox(width: 5,),
-                              const Icon(
-                                Icons.more_horiz,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-    
-                Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 2,
-                ),
-    
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "15 May 2024",
-                                style: GoogleFonts.dmSans(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Cough and mild fever, headache",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "4 June",
-                                    style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  trailing: Icon(
+                                    CupertinoIcons.doc,
+                                    color: Colors.pink.shade600,
                                   ),
-                                  const Text(
-                                    "Follow Up",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 8,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(width: 10,),
-                              const Icon(
-                                Icons.check_circle,
-                                color: Color.fromARGB(255, 103, 241, 108),
-                                size: 17,
-                              )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.file_download_outlined,
-                                color: Colors.pink.shade300,
-                              ),
-            
-                              const SizedBox(width: 5,),
-                              const Icon(
-                                Icons.more_horiz,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-    
-                Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 2,
-                ),
-    
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "15 May 2024",
-                                style: GoogleFonts.dmSans(
-                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
-                              const Text(
-                                "Cough and mild fever, headache",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "4 June",
-                                    style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "Follow Up",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 8,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(width: 10,),
-                              const Icon(
-                                Icons.check_circle,
-                                color: Color.fromARGB(255, 103, 241, 108),
-                                size: 17,
-                              )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.file_download_outlined,
-                                color: Colors.pink.shade300,
-                              ),
-            
-                              const SizedBox(width: 5,),
-                              const Icon(
-                                Icons.more_horiz,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-    
-                Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 2,
-                ),
-    
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "15 May 2024",
-                                style: GoogleFonts.dmSans(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Cough and mild fever, headache",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "4 June",
-                                    style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "Follow Up",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 8,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(width: 10,),
-                              const Icon(
-                                Icons.check_circle,
-                                color: Color.fromARGB(255, 103, 241, 108),
-                                size: 17,
-                              )
-                            ],
-                          ),
-            
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.file_download_outlined,
-                                color: Colors.pink.shade300,
-                              ),
-            
-                              const SizedBox(width: 5,),
-                              const Icon(
-                                Icons.more_horiz,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-    
-                Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 2,
-                ),
-    
-                
+                              );
+                            });
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    })
               ],
             ),
           )),

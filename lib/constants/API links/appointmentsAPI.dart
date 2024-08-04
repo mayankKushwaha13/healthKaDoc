@@ -1,0 +1,1 @@
+const String apptAPI = "http://192.168.0.223:8000/api/v1/mob_ile/receptionist";

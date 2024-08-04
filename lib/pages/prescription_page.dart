@@ -13,20 +13,20 @@ import 'package:prescription/model/user.dart';
 import 'package:printing/printing.dart';
 
 createPrescription({
-  required TextEditingController nameController,
-  required TextEditingController ageController,
-  required TextEditingController dateController,
-  required TextEditingController timeController,
-  required TextEditingController phoneController,
-  required List<String> complaints,
+  required String nameController,
+  required String ageController,
+  required String dateController,
+  required String timeController,
+  required String phoneController,
+  List<String> complaints = const [],
   required String gender,
   required List<Map<String, String>> vitalsResults,
   required List<Map<String, String>> medicines,
   required List<Map<String, String>> tests,
   required List<String> diagnosis,
-  required TextEditingController generalAdviceController,
-  required TextEditingController referralController,
-  required TextEditingController surgeryAdviceController,
+  String generalAdviceController = "",
+  String referralController = "",
+  String surgeryAdviceController = "",
 }) async {
   List<DoctorData> doctorData = await UserDatabase().readDocInfo();
   DoctorData doctor = doctorData[doctorData.indexWhere((e)=>e.user == SP.sp!.getString(SP.user))];
@@ -125,13 +125,13 @@ createPrescription({
                           pw.Text("Patient Name : ",
                               style:
                                   pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                          pw.Text(nameController.text),
+                          pw.Text(nameController),
                         ]),
                         pw.Row(children: [
                           pw.Text("Patient Number : ",
                               style:
                                   pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                          pw.Text(phoneController.text),
+                          pw.Text(phoneController),
                         ]),
                       ]),
                   pw.Column(
@@ -147,7 +147,7 @@ createPrescription({
                           pw.Text("Age : ",
                               style:
                                   pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                          pw.Text(ageController.text),
+                          pw.Text(ageController),
                         ]),
                       ]),
                   pw.Column(
@@ -285,65 +285,65 @@ createPrescription({
                       ]),
             pw.Divider(),
             // General Advice
-            generalAdviceController.text.isNotEmpty &&
-                    (generalAdviceController.text
+            generalAdviceController.isNotEmpty &&
+                    (generalAdviceController
                             .contains(RegExp("[a-z]", caseSensitive: false)) ||
-                        generalAdviceController.text.contains(RegExp("[0-9]")))
+                        generalAdviceController.contains(RegExp("[0-9]")))
                 ? pw.Text("General Advice",
                     style: pw.TextStyle(
                         fontSize: 18, fontWeight: pw.FontWeight.bold))
                 : pw.Container(),
             // pw.SizedBox(height: 5),
-            generalAdviceController.text.isNotEmpty &&
-                    (generalAdviceController.text
+            generalAdviceController.isNotEmpty &&
+                    (generalAdviceController
                             .contains(RegExp("[a-z]", caseSensitive: false)) ||
-                        generalAdviceController.text.contains(RegExp("[0-9]")))
+                        generalAdviceController.contains(RegExp("[0-9]")))
                 ? pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                        pw.Text(generalAdviceController.text.toString()),
+                        pw.Text(generalAdviceController.toString()),
                         pw.Divider()
                       ])
                 : pw.Container(),
             // Referrals
-            referralController.text.isNotEmpty &&
-                    (referralController.text
+            referralController.isNotEmpty &&
+                    (referralController
                             .contains(RegExp("[a-z]", caseSensitive: false)) ||
-                        referralController.text.contains(RegExp("[0-9]")))
+                        referralController.contains(RegExp("[0-9]")))
                 ? pw.Text("Referrals",
                     style: pw.TextStyle(
                         fontSize: 18, fontWeight: pw.FontWeight.bold))
                 : pw.Container(),
             // pw.SizedBox(height: 5),
-            referralController.text.isNotEmpty &&
-                    (referralController.text
+            referralController.isNotEmpty &&
+                    (referralController
                             .contains(RegExp("[a-z]", caseSensitive: false)) ||
-                        referralController.text.contains(RegExp("[0-9]")))
+                        referralController.contains(RegExp("[0-9]")))
                 ? pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                        pw.Text(referralController.text.toString()),
+                        pw.Text(referralController.toString()),
                         pw.Divider()
                       ])
                 : pw.Container(),
             // Surgery Advice
-            surgeryAdviceController.text.isNotEmpty &&
-                    (surgeryAdviceController.text
+            surgeryAdviceController.isNotEmpty &&
+                    (surgeryAdviceController
                             .contains(RegExp("[a-z]", caseSensitive: false)) ||
-                        surgeryAdviceController.text.contains(RegExp("[0-9]")))
+                        surgeryAdviceController.contains(RegExp("[0-9]")))
                 ? pw.Text("Surgery Advice",
                     style: pw.TextStyle(
                         fontSize: 18, fontWeight: pw.FontWeight.bold))
                 : pw.Container(),
             // pw.SizedBox(height: 5),
-            surgeryAdviceController.text.isNotEmpty &&
-                    (surgeryAdviceController.text
+            surgeryAdviceController.isNotEmpty &&
+                    (surgeryAdviceController
                             .contains(RegExp("[a-z]", caseSensitive: false)) ||
-                        surgeryAdviceController.text.contains(RegExp("[0-9]")))
+                        surgeryAdviceController.contains(RegExp("[0-9]")))
                 ? pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                        pw.Text(surgeryAdviceController.text.toString()),
+                        pw.Text(surgeryAdviceController.toString()),
                         pw.Divider()
                       ])
                 : pw.Container(),
@@ -356,7 +356,7 @@ createPrescription({
                   pw.Row(children: [
                     pw.Text("Next Visit : ",
                         style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    pw.Text("${dateController.text} at ${timeController.text}"),
+                    pw.Text("${dateController} at ${timeController}"),
                   ]),
                   pw.Row(children: [
                     pw.Text("Signature : ",

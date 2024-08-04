@@ -133,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                               SP.sp!.setString(
                                   SP.secondName, doctor.doctorData.secondName);
                               SP.sp!.setString(SP.currClinic, doctor.clinicNameWithID.first['clinic_id']);
+                              SP.sp!.setString(SP.currClinicName, doctor.clinicNameWithID.first['clinic_name']);
                             }
                             setState(() {
                               isLogging = true;

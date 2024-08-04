@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prescription/constants/colors.dart';
+import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/pages/docProfilePages/doc_profile.dart';
 
 class Header extends StatefulWidget {
@@ -37,6 +38,29 @@ class _HeaderState extends State<Header> {
             const SizedBox(
               width: 10,
             ),
+            // Expanded(
+            //   child: Center(
+            //     child: Container(
+            //       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(1000),
+            //         gradient: LinearGradient(
+            //           colors: [Colors.indigo.shade400, Colors.pink.shade400],
+            //           begin: Alignment.topRight,
+            //           end: Alignment.bottomLeft
+            //         )
+            //       ),
+            //       child: Text(
+            //         SP.sp!.getString(SP.currClinicName)! + " Clinic",
+            //         style: GoogleFonts.lato(
+            //           fontSize: 22,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.white
+            //         ),
+            //       ),
+            //     ),
+            //   )
+            // ),
             Expanded(
                 child: TextField(
                   onChanged: widget.onChanged,

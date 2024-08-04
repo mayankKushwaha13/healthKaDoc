@@ -11,6 +11,8 @@ import 'package:prescription/pages/home_page.dart';
 import 'package:prescription/pages/login_page.dart';
 import 'package:http/http.dart' as http;
 
+import '../functions/getAppointments.dart';
+
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
 
@@ -133,18 +135,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               setState(() {
                                 SP.sp!.setString(
                                     SP.currClinic, clinic['clinicID']);
+                                SP.sp!.setString(
+                                    SP.currClinicName, clinic['clinicName']);
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     content: Text(
                                         "${clinic['clinicName']} clinic selected")));
-                                Scaffold.of(context).closeDrawer();
+                                getAppointments();
+                                // Scaffold.of(context).closeDrawer();
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => const HomePage()));
                               });
                             },
                             titleAlignment: ListTileTitleAlignment.center,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             tileColor: Colors.pink.shade700,
-                            contentPadding:
-                                const EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                            contentPadding: const EdgeInsets.only(
+                                top: 10, bottom: 10, left: 20),
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(10000),
                               // child: Image.network(
@@ -207,11 +215,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     clinics =
         clinics.where((e) => e.user == SP.sp!.getString(SP.user)).toList();
     for (int i = 0; i < temp.length; i++) {
-      var clinicID = clinics[clinics.indexWhere((e)=>e.clinicName == temp[i]['clinicName'])].clinicID;
+      var clinicID = clinics[
+              clinics.indexWhere((e) => e.clinicName == temp[i]['clinicName'])]
+          .clinicID;
       UserDatabase().updateClinicID(
-            user: SP.sp!.getString(SP.user)!,
-            clinicName: temp[i]['clinicName'],
-            clinicID: clinicID);
+          user: SP.sp!.getString(SP.user)!,
+          clinicName: temp[i]['clinicName'],
+          clinicID: clinicID);
     }
     for (int i = 0; i < temp.length; i++) {
       if (temp[i]['clinicID'] == null) {

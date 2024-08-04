@@ -9,6 +9,7 @@ class SP {
   static String firstName = "firstName";
   static String secondName = "secondName";
   static String currClinic = "currentClinic";
+  static String currClinicName = "currentClinicName";
   static Future init() async {
     sp = await SharedPreferences.getInstance();
   }
