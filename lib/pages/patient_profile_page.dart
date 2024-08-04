@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prescription/widgets/patientProfileWidgets/patient_profile_header.dart';
 import 'package:prescription/widgets/patientProfileWidgets/recent_visits.dart';
-import 'package:prescription/widgets/patientProfileWidgets/vitals_container.dart';
 
 class PatientProfilePage extends StatelessWidget {
   const PatientProfilePage({super.key, required this.name, required this.phone});

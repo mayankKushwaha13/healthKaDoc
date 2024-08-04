@@ -14,7 +14,7 @@ getAppointments() async {
           e.clinicID == SP.sp!.getString(SP.currClinic))
       .toList();
   var response = await http.post(
-      Uri.parse("${apptAPI}/get_all_appointments_mobile"),
+      Uri.parse("$apptAPI/get_all_appointments_mobile"),
       headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json'

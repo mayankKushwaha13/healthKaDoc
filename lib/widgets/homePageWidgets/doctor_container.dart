@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,12 +6,12 @@ import 'package:prescription/data/appointments_database.dart';
 import 'package:prescription/pages/clinic_notes_page.dart';
 import 'package:prescription/widgets/circular_design.dart';
 
-import '../../data/shared_preference.dart';
 import '../../model/appointment.dart';
 
 class DoctorContainer extends StatefulWidget {
-  final doctor;
   const DoctorContainer({super.key, required this.doctor});
+  
+  final doctor;
 
   @override
   State<DoctorContainer> createState() => _DoctorContainerState();
@@ -107,21 +106,21 @@ class AppointmentContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    weekday(value) {
-      return value == 1
-          ? "Monday"
-          : value == 2
-              ? "Tuesday"
-              : value == 3
-                  ? "Wednesday"
-                  : value == 4
-                      ? "Thursday"
-                      : value == 5
-                          ? "Friday"
-                          : value == 6
-                              ? "Saturday"
-                              : "Sunday";
-    }
+    // weekday(value) {
+    //   return value == 1
+    //       ? "Monday"
+    //       : value == 2
+    //           ? "Tuesday"
+    //           : value == 3
+    //               ? "Wednesday"
+    //               : value == 4
+    //                   ? "Thursday"
+    //                   : value == 5
+    //                       ? "Friday"
+    //                       : value == 6
+    //                           ? "Saturday"
+    //                           : "Sunday";
+    // }
 
     return FutureBuilder(
         future: AppointmentsDB().readAppointments(),
@@ -132,11 +131,11 @@ class AppointmentContainer extends StatelessWidget {
             for (int i = 0; i < appointments.length; i++){
               var appointment = appointments[i];
               DateTime aptDate = DateTime.parse(apt.appointmentDate.split("/").reversed.join("-"));
-              var aptTemp = appointment.appointmentTime.split(":");
-              TimeOfDay aptTime = TimeOfDay(hour: int.parse(aptTemp[0]), minute: int.parse(aptTemp[1]));
+              // var aptTemp = appointment.appointmentTime.split(":");
+              // TimeOfDay aptTime = TimeOfDay(hour: int.parse(aptTemp[0]), minute: int.parse(aptTemp[1]));
               DateTime date = DateTime.parse(appointment.appointmentDate.split("/").reversed.join("-"));
-              var temp = appointment.appointmentTime.split(":");
-              TimeOfDay time = TimeOfDay(hour: int.parse(temp[0]), minute: int.parse(temp[1]));
+              // var temp = appointment.appointmentTime.split(":");
+              // TimeOfDay time = TimeOfDay(hour: int.parse(temp[0]), minute: int.parse(temp[1]));
               DateTime today = DateTime.now();
               if(aptDate.difference(today).inSeconds.isNegative){
                 apt = appointment;
@@ -284,7 +283,7 @@ class AppointmentContainer extends StatelessWidget {
                                       color: Colors.blue.shade100),
                                   child: Text(
                                     apt.appointmentType == "0" ? "Check Up" : "Follow Up",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -300,7 +299,7 @@ class AppointmentContainer extends StatelessWidget {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

@@ -41,7 +41,7 @@ class _HeaderState extends State<HeaderHome> {
             Expanded(
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(1000),
                     gradient: LinearGradient(
@@ -51,7 +51,7 @@ class _HeaderState extends State<HeaderHome> {
                     )
                   ),
                   child: Text(
-                    SP.sp!.getString(SP.currClinicName)! + " Clinic",
+                    "${SP.sp!.getString(SP.currClinicName)!} Clinic",
                     style: GoogleFonts.lato(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,

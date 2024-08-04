@@ -137,7 +137,7 @@ class _RecordsPageState extends State<RecordsPage> {
                               );
                             });
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }

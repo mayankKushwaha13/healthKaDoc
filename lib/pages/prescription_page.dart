@@ -356,7 +356,7 @@ createPrescription({
                   pw.Row(children: [
                     pw.Text("Next Visit : ",
                         style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                    pw.Text("${dateController} at ${timeController}"),
+                    pw.Text("$dateController at $timeController"),
                   ]),
                   pw.Row(children: [
                     pw.Text("Signature : ",

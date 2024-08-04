@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prescription/constants/colors.dart';
-import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/pages/docProfilePages/doc_profile.dart';
 
 class Header extends StatefulWidget {

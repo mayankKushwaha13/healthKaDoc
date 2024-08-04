@@ -1,19 +1,12 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:prescription/constants/API%20links/appointmentsAPI.dart';
-import 'package:prescription/data/appointments_database.dart';
 import 'package:prescription/data/shared_preference.dart';
 import 'package:prescription/functions/getPrescription.dart';
-import 'package:prescription/model/appointment.dart';
 import 'package:prescription/widgets/drawer_widget.dart';
 import 'package:prescription/widgets/homePageWidgets/doctor_container.dart';
-import 'package:prescription/widgets/header.dart';
 import 'package:prescription/widgets/homePageWidgets/header_home.dart';
-import 'package:prescription/widgets/homePageWidgets/my_line_chart.dart';
 import 'package:prescription/widgets/homePageWidgets/patientsWidget.dart';
 import 'package:prescription/widgets/homePageWidgets/recordsWidget.dart';
-import 'package:http/http.dart' as http;
 
 import '../functions/getAppointments.dart';
 
