@@ -1,0 +1,2 @@
+E:/Applications/healthKa Intern/doctor/android/app/.cxx/Debug/2t2sc6j6/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/Applications/healthKa Intern/doctor/android/app/.cxx/Debug/2t2sc6j6/arm64-v8a/CMakeFiles/rebuild_cache.dir
